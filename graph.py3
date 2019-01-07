@@ -49,6 +49,7 @@ while(num<=100):
 print(x)
 
 ax= sns.stripplot(y,x)
+bx= sns.stripplot(y,z)
 ax.set(xlabel="num" , ylabel="time")
 plt.title("graph b/w no n time taken to calculate fib ")
 plt.show()
