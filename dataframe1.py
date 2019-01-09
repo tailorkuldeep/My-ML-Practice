@@ -9,10 +9,10 @@ plt.plot(df.YearsExperience,df.Salary,color='red',linestyle='dotted', linewidth=
 plt.xlim=(0,12)
 plt.ylim=(0,120000)
 #labelling axis
-plt.xlabel('year of experience')
+plt.xlabel('Years of Experience')
 plt.ylabel('Salary')
-plt.grid(True,color="black")
-plt.title("experience vs salary graph")
+plt.grid(True,color="gray")
+plt.title("Experience vs Salary graph")
 
 plt.show()
 
