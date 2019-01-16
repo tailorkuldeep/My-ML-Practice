@@ -18,5 +18,5 @@ while(i<5):
     i+=1
 print(dt2)
 df=pd.DataFrame(data=dt2)
-df.fillna(" ")
+df=df.fillna(" ")
 df
