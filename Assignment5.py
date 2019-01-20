@@ -5,7 +5,7 @@ print(df)
 temp=[]
 dt2=[]
 i=0 
-while(i<5):
+while(i<10):
     j=i
     while(1):
         temp.append(df.loc[j]['l1'])
