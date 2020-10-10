@@ -1,0 +1,50 @@
+def answer_one():
+    import pandas as pd
+    import numpy as np
+    import re
+    def energy():
+        energy = pd.read_excel('Energy Indicators.xls', sheet_name='Energy')
+        energy = energy.iloc[16:243]
+        energy.drop(['Unnamed: 0', 'Unnamed: 1'], axis='columns', inplace=True)
+        energy.columns = ['Country', 'Energy Supply', 'Energy Supply per Capita', '% Renewable']
+        energy = energy.replace('...', np.nan)
+        energy['Energy Supply'] = energy['Energy Supply'] * 1000000
+
+        energy['Country'] = energy['Country'].replace(regex=True, to_replace=[r'\d', r' \(([^)]+)\)'], value=r'')
+        energy = energy.replace('Republic of Korea', 'South Korea')
+        energy = energy.replace('United States of America', 'United States')
+        energy = energy.replace('United Kingdom of Great Britain and Northern Ireland', 'United Kingdom')
+        energy = energy.replace('China, Hong Kong Special Administrative Region', 'Hong Kong')
+
+        energy = energy.reset_index()
+        energy = energy[['Country', 'Energy Supply', 'Energy Supply per Capita', '% Renewable']]
+        return energy
+    def GDP():
+        GDP= pd.read_csv('world_bank.csv')
+        s=(GDP.iloc[3].values)[:4].astype(str).tolist() + (GDP.iloc[3].values)[4:].astype(int).astype(str).tolist()
+        GDP = GDP[4:]
+        GDP.columns = s
+        GDP = GDP[['Country Name','2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015']]
+        GDP.columns = ['Country','2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015']
+
+        GDP = GDP.replace('Korea, Rep.','South Korea')
+        GDP = GDP.replace('Iran, Islamic Rep.','Iran')
+        GDP = GDP.replace('Hong Kong SAR, China','Hong Kong')
+        return GDP
+
+    def ScimEn():
+        ScimEn = pd.read_excel('scimagojr-3.xlsx')
+        return ScimEn
+
+    e = energy() 
+    g = GDP()
+    s = ScimEn()
+
+    df=pd.merge(e,g,how = 'outer',left_on='Country',right_on='Country')
+    df=pd.merge(s,df,how='outer',left_on='Country',right_on='Country')
+    df.sort_values(by=['Rank'], inplace = True)
+    df.set_index('Country',inplace=True)
+    res = df.head(15)
+    return res
+
+answer_one()
